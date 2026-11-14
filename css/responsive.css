@@ -1,0 +1,50 @@
+@media (max-width: 900px) {
+  .sidebar {
+    width: 200px;
+    padding: 25px 15px;
+  }
+
+  .main-content {
+    margin-left: 200px;
+    padding: 35px 25px;
+  }
+}
+
+@media (max-width: 600px) {
+  .sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+    padding: 20px;
+  }
+
+  .brand {
+    margin-bottom: 20px;
+  }
+
+  .navigation {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .sidebar-footer {
+    margin-top: 15px;
+  }
+
+  .main-content {
+    margin-left: 0;
+    padding: 30px 20px;
+  }
+
+  .topbar {
+    margin-bottom: 40px;
+  }
+
+  .topbar h2 {
+    font-size: 25px;
+  }
+
+  .roulette-container {
+    padding: 25px 15px;
+  }
+}

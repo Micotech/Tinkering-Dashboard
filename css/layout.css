@@ -1,0 +1,54 @@
+
+/* Application layout */
+
+.app {
+  min-height: 100vh;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--sidebar-width);
+  height: 100vh;
+  background: var(--surface);
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 35px 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  margin-left: var(--sidebar-width);
+  padding: 45px 55px;
+  max-width: 1600px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 65px;
+}
+
+/* Page visibility and structure */
+
+.page-section {
+  display: none;
+}
+
+.page-section.active {
+  display: block;
+}
+
+.page-section > h2 {
+  font-size: 27px;
+  letter-spacing: -0.8px;
+  margin-bottom: 12px;
+}
+
+.page-section > p {
+  color: var(--text-muted);
+  font-size: 15px;
+  margin-bottom: 35px;
+}

@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="description" content="Less deciding. More discovering.">
+  <meta name="theme-color" content="#171923">
+
+  <title>Tinkering Dashboard</title>
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+
+  <div class="app">
+
+    <!-- Sidebar navigation -->
+    <aside class="sidebar">
+      <div class="brand">
+        <h1>Tinkering<span>.</span></h1>
+        <p>Less deciding. More discovering.</p>
+      </div>
+
+     
+<nav class="navigation" aria-label="Main navigation">
+  <a href="#home" class="nav-link active">Home</a>
+  <a href="#roulette" class="nav-link">Roulette</a>
+  <a href="#activities" class="nav-link">Activities</a>
+  <a href="#journal" class="nav-link">Journal</a>
+  <a href="#discoveries" class="nav-link">Discoveries</a>
+  <a href="#favourites" class="nav-link">Favourites</a>
+  <a href="#history" class="nav-link">History & Statistics</a>
+</nav>
+
+      </nav>
+
+      <div class="sidebar-footer">
+        <a href="#settings" class="nav-link">Settings</a>
+      </div>
+    </aside>
+
+    <!-- Main application content -->
+    <main class="main-content">
+
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">YOUR PERSONAL EXPLORATION SPACE</p>
+          <h2>Welcome back.</h2>
+        </div>
+      </header>
+
+      <!-- Home section -->
+      <section id="home" class="page-section active">
+        <h2>What shall we explore today?</h2>
+        <p>Pick something interesting. See where it takes you.</p>
+
+        <div class="roulette-container">
+          <h3>Activity Roulette</h3>
+          <p>Your next little adventure is one spin away.</p>
+          <div id="roulette-wheel">
+            Roulette wheel coming soon.
+          </div>
+          <button id="spin-button" type="button">
+            Spin the wheel
+          </button>
+        </div>
+      </section>
+
+
+<section id="roulette" class="page-section">
+  <h2>The Roulette</h2>
+  <p>Leave your next adventure to chance.</p>
+
+  <div class="roulette-container">
+    <h3>Where will curiosity take you?</h3>
+    <p>Your next adventure is one spin away.</p>
+
+    <div id="roulette-wheel">
+      Your wheel will appear here.
+    </div>
+
+    <button id="roulette-spin-button" type="button">
+      Spin the wheel
+    </button>
+  </div>
+</section>
+
+
+      <!-- Other application sections -->
+      <section id="activities" class="page-section">
+        <h2>Activities</h2>
+      </section>
+
+      <section id="journal" class="page-section">
+        <h2>Journal</h2>
+      </section>
+
+      <section id="discoveries" class="page-section">
+        <h2>Discoveries</h2>
+      </section>
+
+      <section id="favourites" class="page-section">
+        <h2>Favourites</h2>
+      </section>
+
+      <section id="history" class="page-section">
+        <h2>History</h2>
+      </section>
+
+      <section id="settings" class="page-section">
+        <h2>Settings</h2>
+      </section>
+
+    </main>
+
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+
+</body>
+</html>

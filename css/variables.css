@@ -1,0 +1,22 @@
+
+:root {
+  /* Backgrounds */
+  --background: #171923;
+  --surface: #222638;
+  --elevated: #30374B;;
+
+  /* Accent colours */
+  --purple: #A78BFA;
+  --pink: #F472B6;
+  --blue: #38BDF8;
+  --mint: #34D399;
+  --yellow: #FBBF24;
+  --coral: #FB7185;
+
+  /* Text */
+  --text: #F4F4F8;
+  --text-muted: #A1A5B5;
+
+  /* Layout */
+  --sidebar-width: 250px;
+}
