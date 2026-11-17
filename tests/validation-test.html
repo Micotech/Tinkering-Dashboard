@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Validation Tests</title>
+</head>
+<body>
+  <h1>Validation Tests</h1>
+  <pre id="test-results">Running tests...</pre>
+
+  <script type="module">
+    import { createDefaultDocument } from "../js/data/defaults.js";
+    import { validateDocument } from "../js/data/validation.js";
+
+    const results = document.getElementById("test-results");
+
+    function runTest(name, testFunction) {
+      try {
+        const passed = testFunction();
+        results.textContent += `\n${passed ? "PASS" : "FAIL"}: ${name}`;
+      } catch (error) {
+        results.textContent += `\nERROR: ${name} — ${error.message}`;
+      }
+    }
+
+    results.textContent = "";
+
+    runTest("Default document passes validation", () => {
+      const documentData = createDefaultDocument();
+      return validateDocument(documentData) !== null;
+    });
+
+runTest("Missing activity references are normalised", () => { const data = createDefaultDocument(); data.attempts.push({ id: "test-attempt-1", activityKey: "deleted-activity-key", activityId: "deleted-activity", activityName: "Deleted activity", categoryId: "creative", outcome: "attempted", date: "2026-11-17", durationMinutes: null, createdAt: new Date().toISOString() }); const result = validateDocument(data); return ( result !== null && result.attempts[0].activityId === null && result.attempts[0].activityName === "Deleted activity" ); });
+  runTest("Missing category references are rejected", () => {
+  const data = createDefaultDocument();
+
+  data.activities[0].categoryId = "missing-category";
+
+  return validateDocument(data) === null;
+});
+runTest("Duplicate IDs across collections are rejected", () => {
+  const data = createDefaultDocument();
+
+  data.attempts.push({
+    id: data.activities[0].id,
+    activityKey: "test-activity-key",
+    activityId: data.activities[0].id,
+    activityName: data.activities[0].name,
+    categoryId: "creative",
+    outcome: "attempted",
+    date: "2026-11-17",
+    durationMinutes: null,
+    createdAt: new Date().toISOString()
+  });
+
+  return validateDocument(data) === null;
+});
+runTest("Invalid activity records are rejected", () => {
+  const data = createDefaultDocument();
+
+  data.activities[0].name = "";
+
+  return validateDocument(data) === null;
+});
+runTest("Documents with no active categories are rejected", () => {
+  const data = createDefaultDocument();
+
+  data.categories.forEach((category) => {
+    category.isArchived = true;
+  });
+
+  return validateDocument(data) === null;
+});
+runTest("Invalid calendar dates are rejected", () => {
+  const data = createDefaultDocument();
+
+  data.discoveries.push({
+    id: "test-discovery-1",
+    title: "Test discovery",
+    description: "",
+    categoryId: null,
+    dateDiscovered: "2026-02-30",
+    url: null,
+    isFavourite: false,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  });
+
+  return validateDocument(data) === null;
+});
+runTest("Unsafe discovery URLs are rejected", () => {
+  const data = createDefaultDocument();
+
+  data.discoveries.push({
+    id: "test-discovery-2",
+    title: "Test discovery",
+    description: "",
+    categoryId: null,
+    dateDiscovered: "2026-11-17",
+    url: "javascript:alert(1)",
+    isFavourite: false,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  });
+
+  return validateDocument(data) === null;
+});
+runTest("Journal entries require a meaningful reflection", () => {
+  const data = createDefaultDocument();
+
+  data.journalEntries.push({
+    id: "test-journal-1",
+    activityId: null,
+    activityName: "Spontaneous entry",
+    categoryId: null,
+    date: "2026-11-17",
+    whatIThought: "   ",
+    whatIDid: null,
+    whatILearned: null,
+    whatIEnjoyed: null,
+    whatIDisliked: null,
+    notes: null,
+    wouldRepeat: null,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  });
+
+  return validateDocument(data) === null;
+});
+runTest("Invalid activity difficulty is rejected", () => {
+  const data = createDefaultDocument();
+
+  data.activities[0].difficulty = "expert";
+
+  return validateDocument(data) === null;
+});
+runTest("Valid HTTPS discovery URLs are accepted", () => {
+  const data = createDefaultDocument();
+
+  data.discoveries.push({
+    id: "test-discovery-3",
+    title: "Test discovery",
+    description: "",
+    categoryId: null,
+    dateDiscovered: "2026-11-17",
+    url: "https://example.com",
+    isFavourite: false,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  });
+
+  return validateDocument(data) !== null;
+});
+runTest("Unapproved category icons are rejected", () => {
+  const data = createDefaultDocument();
+
+  data.categories[0].icon = "🔥";
+
+  return validateDocument(data) === null;
+});
+runTest("Invalid timestamps are rejected", () => {
+  const data = createDefaultDocument();
+
+  data.categories[0].createdAt = "not-a-valid-timestamp";
+
+  return validateDocument(data) === null;
+});
+runTest("Non-object documents are rejected safely", () => {
+  return (
+    validateDocument(null) === null &&
+    validateDocument("invalid") === null &&
+    validateDocument([]) === null
+  );
+});
+runTest("Empty optional journal fields are rejected", () => {
+  const data = createDefaultDocument();
+
+  data.journalEntries.push({
+    id: "test-journal-2",
+    activityId: null,
+    activityName: "Spontaneous entry",
+    categoryId: null,
+    date: "2026-11-17",
+    whatIThought: "I found this interesting.",
+    whatIDid: "",
+    whatILearned: null,
+    whatIEnjoyed: null,
+    whatIDisliked: null,
+    notes: null,
+    wouldRepeat: null,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  });
+
+  return validateDocument(data) === null;
+});
+runTest("Live activity references must match activity identity", () => {
+  const data = createDefaultDocument();
+
+  data.attempts.push({
+    id: "test-attempt-2",
+    activityKey: "wrong-activity-key",
+    activityId: data.activities[0].id,
+    activityName: data.activities[0].name,
+    categoryId: data.activities[0].categoryId,
+    outcome: "attempted",
+    date: "2026-11-17",
+    durationMinutes: null,
+    createdAt: new Date().toISOString()
+  });
+
+  return validateDocument(data) === null;
+});
+  </script>
+  
+</body>
+
+</html>

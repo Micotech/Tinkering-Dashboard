@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'"
+  >
+  <meta charset="UTF-8">
+  <title>CSP Test</title>
+  <link rel="stylesheet" href="csp-test.css">
+  <script type="module" src="csp-test.js"></script>
+</head>
+<body>
+  <h1>Content Security Policy Test</h1>
+
+  <p>Click the button to rotate the SVG.</p>
+
+  <svg width="200" height="200" viewBox="0 0 200 200">
+    <g id="rotating-group">
+      <circle cx="100" cy="100" r="75" fill="#A78BFA"/>
+      <line x1="100" y1="100" x2="100" y2="30"
+            stroke="#FFFFFF" stroke-width="5"/>
+    </g>
+  </svg>
+
+  <button id="rotate-button">Rotate SVG</button>
+  <button id="service-worker-button">
+  Test Service Worker
+</button>
+
+<p id="service-worker-status">Not tested yet.</p>
+
+<button id="export-button">Test Export</button>
+<p id="export-status">Not tested yet.</p>
+<input type="file" id="import-file" accept="application/json">
+<p id="import-status">No file selected.</p>
+<button id="open-dialog-button">Test Native Dialog</button>
+
+<dialog id="test-dialog">
+  <p>Native dialog works under CSP.</p>
+  <button id="close-dialog-button">Close dialog</button>
+</dialog>
+</body>
+</html>

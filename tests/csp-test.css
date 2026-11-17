@@ -1,0 +1,28 @@
+
+body {
+  background: #171923;
+  color: #F4F4F8;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 40px;
+}
+
+svg {
+  display: block;
+  margin: 30px auto;
+}
+
+#rotating-group {
+  transform-origin: 100px 100px;
+  transition: transform 1s ease;
+}
+
+button {
+  background: #A78BFA;
+  color: #171923;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 15px;
+  cursor: pointer;
+}
