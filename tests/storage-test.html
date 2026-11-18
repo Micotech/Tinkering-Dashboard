@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Storage Tests</title>
+</head>
+<body>
+  <h1>Storage Tests</h1>
+  <pre id="test-results">Running tests...</pre>
+
+  <script type="module">
+    import { load } from "../js/data/storage.js";
+    import { createDefaultDocument } from "../js/data/defaults.js";
+
+    const results = document.getElementById("test-results");
+    const storageKey = "tinkeringDashboard.data";
+
+    function runTest(name, expectedStatus) {
+      const result = load();
+      const passed = result.status === expectedStatus;
+
+      results.textContent +=
+        `\n${passed ? "PASS" : "FAIL"}: ${name}` +
+        ` (received: ${result.status})`;
+    }
+
+    results.textContent = "";
+
+    // Test 1: No saved data.
+    localStorage.removeItem(storageKey);
+    runTest("Empty storage is detected", "empty");
+
+    // Test 2: Valid current-version document.
+    localStorage.setItem(
+      storageKey,
+      JSON.stringify(createDefaultDocument())
+    );
+    runTest("Valid document is loaded", "ok");
+
+    // Test 3: Invalid JSON.
+    localStorage.setItem(storageKey, "{invalid json");
+    runTest("Invalid JSON is detected", "corrupt");
+
+    // Test 4: Newer schema version.
+    const newerDocument = createDefaultDocument();
+    newerDocument.schemaVersion = 2;
+
+    localStorage.setItem(
+      storageKey,
+      JSON.stringify(newerDocument)
+    );
+    runTest("Newer schema is detected", "newer");
+
+    // Clean up after the tests.
+    localStorage.removeItem(storageKey);
+  </script>
+</body>
+</html>
